@@ -1,0 +1,82 @@
+<section>
+    <div class="container">
+        <div class="row">
+        
+            <div class="col-md-6">
+                <h2 class="text-center">Add User</h2>
+                <form action="/admin/add-user" method="post" enctype="multipart/form-data">
+                    <label for=""></label>
+                    <input placeholder="Name" type="text" name="name" id="username" onkeyup="validateName()" class="form-control" required>
+                    <span id="name-error" class="validation-label text-danger"></span>
+                    <label for=""></label>
+                    <input placeholder="Email" type="email" name="email" id="email" onkeyup="validateEmail()" class="form-control" required>
+                    <span id="email-error" class="validation-label text-danger"></span>
+                    <label for=""></label>
+                    <input placeholder="Password" type="password" name="password" id="password" onkeyup="validatePassword()" class="form-control" required>
+                    <span id="password-error" class="validation-label text-danger"></span>
+                    <button type="submit" class="btn btn-success mt-4" onclick="return validateForm()">Submit</button>
+                    <span id="submit-error" class="validation-label text-danger"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+  var nameError = document.getElementById('name-error');
+var emailError = document.getElementById('email-error');
+var passwordError = document.getElementById('password-error');
+var submitError = document.getElementById('submit-error');
+
+function validateName(){                                 
+  var name = document.getElementById("username").value;
+  if(name.length == 0){
+    nameError.innerHTML = 'Name is required';
+    return false;
+  }
+  if(!name.match(/^[A-Za-z]+ [A-Za-z]+$/)) {
+      nameError.innerHTML = 'Write full name';
+      return false;
+  }
+  nameError.innerHTML = '';
+      return true;
+}
+
+function validateEmail(){
+  var email = document.getElementById('email').value;
+  if(email.length==0){
+      emailError.innerHTML = 'Email is required';
+      return false;
+  }
+  if(!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)){
+    emailError.innerHTML = 'Email invalid';
+    return false;
+  }
+  emailError.innerHTML = '';
+  return true;
+}
+
+function validatePassword(){
+  var password = document.getElementById('password').value;
+  var passChecker = /^[A-Za-z]\w{7,14}$/;
+  if(password.match(passChecker)){
+    passwordError.innerHTML = '';
+    return true;
+  }else{
+    passwordError.innerHTML = 'required 7-14 character';
+    return false;
+  }
+}
+
+function validateForm(){
+  if(!validateName() || !validateEmail() || !validatePassword()){
+    submitError.style.display='flex';
+    submitError.style.justifyContent='center';
+    submitError.innerHTML = 'Please fix all errors to submit';
+    setTimeout(()=>{
+      submitError.style.display='none';
+    },3000);
+    return false;
+  }
+}
+</script>
